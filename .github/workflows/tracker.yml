@@ -1,0 +1,49 @@
+# 這個檔案在 repo 裡的路徑必須是：.github/workflows/tracker.yml
+# （在 GitHub 網頁建立檔案時，檔名欄直接輸入 .github/workflows/tracker.yml，
+#   輸入「/」時 GitHub 會自動建立資料夾。這幾行 # 開頭的是註解，留著也沒關係。）
+name: Wattpad Tracker
+
+on:
+  schedule:
+    # 每小時的第 7 分執行一次（UTC）。避開整點是因為整點時 GitHub 最塞、延遲最久。
+    - cron: "7 * * * *"
+  # 允許在網頁上手動觸發（Actions 頁面會出現 Run workflow 按鈕）
+  workflow_dispatch:
+
+# 允許 workflow 把 CSV commit 回這個 repo
+permissions:
+  contents: write
+
+# 防止兩次執行重疊（重疊可能造成重複資料或 commit 衝突）
+concurrency:
+  group: wattpad-tracker
+  cancel-in-progress: false
+
+jobs:
+  track:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: 取出 repo 內容
+        uses: actions/checkout@v4
+
+      - name: 安裝 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 執行追蹤腳本
+        run: python tracker.py
+
+      - name: 把 CSV commit 回 repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/*.csv
+          if git diff --cached --quiet; then
+            echo "沒有新資料，跳過 commit。"
+          else
+            git commit -m "數據快照 $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            git pull --rebase origin ${GITHUB_REF_NAME} || true
+            git push
+          fi
