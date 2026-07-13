@@ -1,12 +1,12 @@
 # 這個檔案在 repo 裡的路徑必須是：.github/workflows/tracker.yml
 # （在 GitHub 網頁建立檔案時，檔名欄直接輸入 .github/workflows/tracker.yml，
 #   輸入「/」時 GitHub 會自動建立資料夾。這幾行 # 開頭的是註解，留著也沒關係。）
-name: Wattpad Tracker
+name: Wattpad Tracker v2
 
 on:
   schedule:
     # 每小時的第 7 分執行一次（UTC）。避開整點是因為整點時 GitHub 最塞、延遲最久。
-    - cron: "7 * * * *"
+    - cron: "15 * * * *"
   # 允許在網頁上手動觸發（Actions 頁面會出現 Run workflow 按鈕）
   workflow_dispatch:
 
