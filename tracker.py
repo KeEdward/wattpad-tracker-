@@ -25,11 +25,11 @@ from zoneinfo import ZoneInfo
 # ==================== 設定區（可直接在 GitHub 網頁上編輯） ====================
 
 # 作品網址
-STORY_URL = "https://www.wattpad.com/story/412212904-planet-phoenix-bible"
+STORY_URL = "https://www.wattpad.com/story/413818203-planet-phoenix"
 
 # 第 1 章發布時間（錨點，ISO 8601 含時區；+08:00 = 台灣時間）
 # 第 N 章的預定發布時刻 = 錨點 + (N-1) x INTERVAL_HOURS 小時
-ANCHOR_TIME = "2026-07-11T14:00:00+08:00"
+ANCHOR_TIME = "2026-07-20T08:00:00+08:00"
 
 # 每隔幾小時發布一章
 INTERVAL_HOURS = 14
