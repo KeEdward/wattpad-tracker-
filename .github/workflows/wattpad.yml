@@ -4,10 +4,6 @@
 name: Wattpad Tracker v2
 
 on:
-  schedule:
-    # 每小時的第 7 分執行一次（UTC）。避開整點是因為整點時 GitHub 最塞、延遲最久。
-    - cron: "15 * * * *"
-  # 允許在網頁上手動觸發（Actions 頁面會出現 Run workflow 按鈕）
   workflow_dispatch:
 
 # 允許 workflow 把 CSV commit 回這個 repo
